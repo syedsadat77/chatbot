@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sadat.ai | Your Personal Intelligence</title>
+    
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: "#3b82f6",     /* Bright Blue */
+                        primaryDark: "#2563eb",
+                        darkBg: "#0B0F19",      /* Deep Navy/Black */
+                        cardDark: "#111827",
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+                        'fade-in': 'fadeIn 0.5s ease-out forwards',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        
+        /* Custom Scrollbar */
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 20px; }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #374151; }
+
+        /* Typing Animation Dots */
+        .typing-dot {
+            animation: bounce 1.4s infinite ease-in-out both;
+            background-color: #9ca3af;
+        }
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+        
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+
+        /* Ambient Background Glow */
+        .ambient-glow {
+            background: radial-gradient(circle at 50% 0%, rgba(59, 130, 246, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body class="bg-white dark:bg-darkBg text-slate-900 dark:text-white transition-colors duration-500 overflow-x-hidden flex flex-col min-h-screen relative">
+
+    <div class="ambient-glow"></div>
+
+    <nav class="fixed top-0 w-full z-50 backdrop-blur-lg bg-white/70 dark:bg-darkBg/70 border-b border-gray-200 dark:border-gray-800 transition-colors duration-500">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-2 cursor-pointer" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+                <div class="w-8 h-8 bg-gradient-to-tr from-blue-600 to-indigo-500 rounded-lg flex items-center justify-center text-white shadow-lg shadow-blue-500/30">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+                      <path fill-rule="evenodd" d="M9.315 7.584C12.195 3.883 16.695 1.5 21.75 1.5a.75.75 0 01.75.75c0 5.056-2.383 9.555-6.084 12.436A6.75 6.75 0 019.75 22.5a.75.75 0 01-.75-.75v-4.131A15.838 15.838 0 016.382 15H2.25a.75.75 0 01-.75-.75 6.75 6.75 0 017.815-6.666zM15 6.75a2.25 2.25 0 100 4.5 2.25 2.25 0 000-4.5z" clip-rule="evenodd" />
+                      <path d="M5.26 17.242a.75.75 0 10-.897-1.203 5.243 5.243 0 00-2.05 5.022.75.75 0 00.625.627 5.243 5.243 0 005.022-2.051.75.75 0 10-1.202-.897 3.744 3.744 0 01-3.008 1.51c0-1.23.592-2.323 1.51-3.008z" />
+                    </svg>
+                </div>
+                <span class="text-xl font-bold tracking-tight">Sadat.ai</span>
+            </div>
+
+            <div class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600 dark:text-gray-300">
+                <a href="#" class="hover:text-primary transition-colors">Features</a>
+                <a href="#" class="hover:text-primary transition-colors">About</a>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <button id="theme-toggle" class="p-2.5 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 transition-all">
+                    <i class="fas fa-moon dark:hidden"></i>
+                    <i class="fas fa-sun hidden dark:block"></i>
+                </button>
+                <button class="hidden md:block px-5 py-2.5 rounded-lg text-sm font-semibold text-white bg-primary hover:bg-primaryDark transition-all shadow-lg shadow-blue-500/25 transform hover:-translate-y-0.5">
+                    Get Started
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow pt-32 pb-20 px-4">
+        
+        <div class="text-center max-w-4xl mx-auto mb-16 animate-fade-in-up">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-900/30 border border-blue-100 dark:border-blue-800 text-primary text-xs font-bold mb-6">
+                <span class="flex h-2 w-2 relative">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                </span>
+                NEW: V2.0 NOW LIVE
+            </div>
+            
+            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 leading-tight">
+                Your Personal <br class="hidden md:block" />
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-indigo-500">Intelligence.</span>
+            </h1>
+            
+            <p class="text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+                The most intuitive AI companion designed to streamline your thoughts, boost productivity, and handle your complex workflows.
+            </p>
+
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <button onclick="focusChat()" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-primary hover:bg-primaryDark text-white font-semibold text-lg transition-all shadow-xl shadow-blue-600/20 hover:shadow-blue-600/40 flex items-center justify-center gap-2 transform hover:-translate-y-1">
+                    <i class="fas fa-bolt"></i> Ask anything
+                </button>
+            </div>
+        </div>
+
+        <div id="chat-wrapper" class="max-w-4xl mx-auto animate-fade-in-up" style="animation-delay: 0.2s;">
+            <div class="relative bg-white dark:bg-cardDark rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-800 overflow-hidden ring-1 ring-black/5 dark:ring-white/10">
+                
+                <div class="bg-gray-50 dark:bg-gray-900/80 backdrop-blur border-b border-gray-200 dark:border-gray-800 px-5 py-3 flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+                        <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                        <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
+                        <span class="ml-4 text-xs font-mono text-gray-400 tracking-wider">LIVE PREVIEW</span>
+                    </div>
+                    <button onclick="clearHistory()" class="text-xs text-red-400 hover:text-red-500 transition-colors">
+                        Clear History
+                    </button>
+                </div>
+
+                <div id="chatbox" class="h-[500px] md:h-[600px] overflow-y-auto p-6 space-y-6 bg-white dark:bg-[#0f1219] custom-scrollbar scroll-smooth">
+                    </div>
+
+                <div id="typing-indicator" class="hidden px-6 py-2 bg-white dark:bg-[#0f1219]">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-500/10 flex items-center justify-center shrink-0">
+                            <i class="fas fa-robot text-primary"></i>
+                        </div>
+                        <div class="bg-gray-100 dark:bg-gray-800/50 rounded-2xl rounded-tl-none px-4 py-3 flex items-center gap-1">
+                            <div class="w-1.5 h-1.5 rounded-full typing-dot"></div>
+                            <div class="w-1.5 h-1.5 rounded-full typing-dot"></div>
+                            <div class="w-1.5 h-1.5 rounded-full typing-dot"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-4 bg-white dark:bg-cardDark border-t border-gray-200 dark:border-gray-800">
+                    <form id="chatForm" class="relative group">
+                        <input id="chatInput" type="text" autocomplete="off" placeholder="Type your message..." 
+                            class="w-full pl-5 pr-32 py-4 bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all">
+                        
+                        <div class="absolute right-2 top-2 bottom-2 flex items-center gap-1">
+                            <button type="button" onclick="insertImageCommand()" class="p-2 text-gray-400 hover:text-primary transition-colors rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800" title="Generate Image">
+                                <i class="fas fa-image"></i>
+                            </button>
+                            <button type="submit" id="sendButton" class="bg-primary hover:bg-primaryDark text-white px-4 py-2 rounded-lg font-medium transition-all shadow-md shadow-blue-500/20">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </form>
+                    <div class="text-center mt-3 text-[10px] text-gray-400 font-medium tracking-wide">
+                        Sadat.ai can make mistakes. Verify important info.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto mt-24 grid md:grid-cols-3 gap-8 px-4 animate-fade-in-up" style="animation-delay: 0.4s;">
+            <div class="p-8 rounded-2xl bg-white dark:bg-cardDark border border-gray-200 dark:border-gray-800 hover:border-primary/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl dark:hover:shadow-blue-900/10 group">
+                <div class="w-12 h-12 rounded-lg bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center mb-6 text-primary group-hover:scale-110 transition-transform">
+                    <span class="material-symbols-outlined text-3xl">verified_user</span>
+                </div>
+                <h3 class="text-xl font-bold mb-3 dark:text-white">Privacy First</h3>
+                <p class="text-gray-500 dark:text-gray-400 leading-relaxed text-sm">
+                    Your data is never used to train our base models. Everything is encrypted and private to you locally.
+                </p>
+            </div>
+            <div class="p-8 rounded-2xl bg-white dark:bg-cardDark border border-gray-200 dark:border-gray-800 hover:border-primary/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl dark:hover:shadow-blue-900/10 group">
+                <div class="w-12 h-12 rounded-lg bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center mb-6 text-primary group-hover:scale-110 transition-transform">
+                    <span class="material-symbols-outlined text-3xl">bolt</span>
+                </div>
+                <h3 class="text-xl font-bold mb-3 dark:text-white">Lightning Fast</h3>
+                <p class="text-gray-500 dark:text-gray-400 leading-relaxed text-sm">
+                    Powered by custom high-concurrency engines for sub-second responses and zero downtime.
+                </p>
+            </div>
+            <div class="p-8 rounded-2xl bg-white dark:bg-cardDark border border-gray-200 dark:border-gray-800 hover:border-primary/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl dark:hover:shadow-blue-900/10 group">
+                <div class="w-12 h-12 rounded-lg bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center mb-6 text-primary group-hover:scale-110 transition-transform">
+                    <span class="material-symbols-outlined text-3xl">psychology</span>
+                </div>
+                <h3 class="text-xl font-bold mb-3 dark:text-white">Deep Integration</h3>
+                <p class="text-gray-500 dark:text-gray-400 leading-relaxed text-sm">
+                    Capable of complex reasoning and image generation to act as a true extension of your brain.
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-darkBg py-12">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-2">
+                <div class="w-6 h-6 bg-primary rounded flex items-center justify-center text-white text-xs">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <span class="font-bold text-gray-900 dark:text-white">Sadat.ai</span>
+            </div>
+            <div class="flex gap-8 text-sm text-gray-500 dark:text-gray-400">
+                <a href="#" class="hover:text-primary transition-colors">Privacy</a>
+                <a href="#" class="hover:text-primary transition-colors">Terms</a>
+                <a href="#" class="hover:text-primary transition-colors">Contact</a>
+            </div>
+            <div class="text-xs text-gray-400">
+                © 2024 Sadat.ai. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <div id="image-modal" class="fixed inset-0 z-[100] bg-black/90 hidden flex items-center justify-center p-4 backdrop-blur-md transition-opacity duration-300 opacity-0" onclick="closeModal()">
+        <button class="absolute top-6 right-6 text-white/50 hover:text-white text-4xl transition-colors">&times;</button>
+        <img id="modal-img" src="" class="max-w-full max-h-[85vh] rounded-xl shadow-2xl border border-white/10 transform scale-95 transition-transform duration-300">
+        <a id="download-link" href="#" class="absolute bottom-8 px-6 py-3 bg-white text-black rounded-full font-bold hover:bg-gray-200 transition-colors shadow-lg flex items-center gap-2" onclick="event.stopPropagation()">
+            <i class="fas fa-download"></i> Download High-Res
+        </a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- DOM Elements ---
+            const chatForm = document.getElementById('chatForm');
+            const chatInput = document.getElementById('chatInput');
+            const chatbox = document.getElementById('chatbox');
+            const typingIndicator = document.getElementById('typing-indicator');
+            const themeToggle = document.getElementById('theme-toggle');
+            const sendButton = document.getElementById('sendButton');
+            
+            // --- Theme Logic ---
+            if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+
+            themeToggle.addEventListener('click', () => {
+                document.documentElement.classList.toggle('dark');
+                localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+            });
+
+            // --- History Management ---
+            let history = JSON.parse(localStorage.getItem('sadat_chat_history_v3')) || [];
+            
+            // If history is empty, show default welcome message
+            if (history.length === 0) {
+                 appendMessage("Hello! I'm your personal intelligence. I can help you write code, generate images, or analyze data. <br><br>Try typing: <span class='font-mono text-primary bg-blue-50 dark:bg-blue-500/20 px-1 rounded'>/image A cyberpunk city</span>", false);
+            }
+
+            function saveHistory() {
+                // Keep only last 50 messages to prevent storage overflow
+                if(history.length > 50) history = history.slice(-50);
+                localStorage.setItem('sadat_chat_history_v3', JSON.stringify(history));
+            }
+
+            window.clearHistory = function() {
+                localStorage.removeItem('sadat_chat_history_v3');
+                location.reload();
+            };
+
+            function appendMessage(text, isUser, isImage = false) {
+                const wrapper = document.createElement('div');
+                wrapper.className = `flex gap-4 max-w-[90%] ${isUser ? 'ml-auto flex-row-reverse' : ''} animate-fade-in`;
+                
+                // Avatar
+                const avatar = document.createElement('div');
+                avatar.className = `w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${isUser ? 'bg-gray-200 dark:bg-gray-700' : 'bg-blue-100 dark:bg-blue-500/10 text-primary'}`;
+                avatar.innerHTML = isUser ? '<i class="fas fa-user text-gray-500 dark:text-gray-300"></i>' : '<i class="fas fa-robot"></i>';
+
+                // Content
+                const content = document.createElement('div');
+                content.className = 'space-y-1 text-left max-w-full overflow-hidden'; 
+                
+                const name = document.createElement('div');
+                name.className = `text-xs font-bold ${isUser ? 'text-right text-gray-500' : 'text-gray-400 ml-1'}`;
+                name.innerText = isUser ? 'You' : 'Sadat AI';
+
+                const bubble = document.createElement('div');
+                bubble.className = `p-4 rounded-2xl text-sm md:text-base leading-relaxed shadow-sm break-words ${
+                    isUser 
+                    ? 'bg-primary text-white rounded-tr-none' 
+                    : 'bg-white border border-gray-100 dark:border-gray-700 dark:bg-gray-800/50 text-gray-800 dark:text-gray-200 rounded-tl-none'
+                }`;
+
+                if (isImage) {
+                    bubble.innerHTML = `
+                        <div class="relative group cursor-pointer overflow-hidden rounded-lg">
+                            <img src="${text}" class="w-full h-auto transform group-hover:scale-105 transition-transform duration-500" onclick="openModal('${text}')">
+                            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+                                <i class="fas fa-expand text-white opacity-0 group-hover:opacity-100 transition-opacity drop-shadow-md"></i>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    bubble.innerHTML = text.replace(/\n/g, '<br>');
+                }
+
+                content.appendChild(name);
+                content.appendChild(bubble);
+                wrapper.appendChild(avatar);
+                wrapper.appendChild(content);
+
+                chatbox.appendChild(wrapper);
+                chatbox.scrollTop = chatbox.scrollHeight;
+            }
+
+            // Load history UI
+            history.forEach(msg => appendMessage(msg.text, msg.isUser, msg.isImage));
+
+            // --- API Logic ---
+            chatForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const text = chatInput.value.trim();
+                if (!text) return;
+
+                // 1. User Message
+                appendMessage(text, true);
+                history.push({text, isUser: true, isImage: false});
+                saveHistory();
+
+                chatInput.value = '';
+                sendButton.disabled = true;
+                
+                // 2. Show Typing
+                typingIndicator.classList.remove('hidden');
+                chatbox.scrollTop = chatbox.scrollHeight;
+
+                // 3. API Call
+                const isImageReq = text.toLowerCase().startsWith('/image');
+                let apiUrl = isImageReq 
+                    ? 'https://backend.buildpicoapps.com/aero/run/image-generation-api?pk=v1-Z0FBQUFBQnBpYnFTOGs2MXFGckpRaDdtaTdIejR4ZTdwZEM3c08xMWwwSE5KNFpISDlWTHNzRWJ0VlRScTliYVIzVklVWGVjV3VQTjZSTGQtY2dJbDFLbUJRLTZ1Q0IwNmc9PQ=='
+                    : 'https://backend.buildpicoapps.com/aero/run/llm-api?pk=v1-Z0FBQUFBQnBpYnFTOGs2MXFGckpRaDdtaTdIejR4ZTdwZEM3c08xMWwwSE5KNFpISDlWTHNzRWJ0VlRScTliYVIzVklVWGVjV3VQTjZSTGQtY2dJbDFLbUJRLTZ1Q0IwNmc9PQ==';
+
+                let prompt = isImageReq ? text.substring(6).trim() : text;
+                
+                // Add persona instruction if it's text
+                if (!isImageReq) {
+                    prompt = "You are Sadat AI, a helpful assistant. If the user asks for an image, reply STRICTLY with '/image ' followed by the description. Otherwise, answer normally. " + prompt;
+                }
+
+                try {
+                    const res = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({prompt})
+                    });
+                    const data = await res.json();
+                    
+                    typingIndicator.classList.add('hidden');
+
+                    if (data.status === 'success') {
+                        // Logic: Did the LLM decide we need an image?
+                        if (!isImageReq && data.text && data.text.trim().toLowerCase().startsWith('/image')) {
+                            const imgDesc = data.text.substring(6).trim();
+                            
+                            // Recursive call for image
+                            typingIndicator.classList.remove('hidden');
+                            const imgRes = await fetch('https://backend.buildpicoapps.com/aero/run/image-generation-api?pk=v1-Z0FBQUFBQnBpYnFTOGs2MXFGckpRaDdtaTdIejR4ZTdwZEM3c08xMWwwSE5KNFpISDlWTHNzRWJ0VlRScTliYVIzVklVWGVjV3VQTjZSTGQtY2dJbDFLbUJRLTZ1Q0IwNmc9PQ==', {
+                                method: 'POST',
+                                headers: {'Content-Type': 'application/json'},
+                                body: JSON.stringify({prompt: imgDesc})
+                            });
+                            const imgData = await imgRes.json();
+                            typingIndicator.classList.add('hidden');
+                            
+                            if (imgData.status === 'success') {
+                                appendMessage(imgData.imageUrl, false, true);
+                                history.push({text: imgData.imageUrl, isUser: false, isImage: true});
+                            } else {
+                                appendMessage("I tried to generate an image but the system was busy.", false);
+                            }
+                        } else if (isImageReq) {
+                            appendMessage(data.imageUrl, false, true);
+                            history.push({text: data.imageUrl, isUser: false, isImage: true});
+                        } else {
+                            appendMessage(data.text, false);
+                            history.push({text: data.text, isUser: false, isImage: false});
+                        }
+                    } else {
+                        appendMessage("System busy. Please try again.", false);
+                    }
+                    saveHistory();
+
+                } catch (err) {
+                    typingIndicator.classList.add('hidden');
+                    console.error(err);
+                    appendMessage("Network error. Please check your connection.", false);
+                } finally {
+                    sendButton.disabled = false;
+                    setTimeout(() => chatInput.focus(), 100);
+                }
+            });
+
+            // --- Helpers ---
+            window.focusChat = () => {
+                document.getElementById('chatInput').focus();
+                document.getElementById('chat-wrapper').scrollIntoView({behavior: 'smooth'});
+            };
+            
+            window.insertImageCommand = () => {
+                chatInput.value = "/image ";
+                chatInput.focus();
+            };
+
+            // Modal Logic
+            const modal = document.getElementById('image-modal');
+            const modalImg = document.getElementById('modal-img');
+            const dlLink = document.getElementById('download-link');
+
+            window.openModal = (url) => {
+                modalImg.src = url;
+                dlLink.href = url;
+                modal.classList.remove('hidden');
+                setTimeout(() => {
+                    modal.classList.remove('opacity-0');
+                    modalImg.classList.remove('scale-95');
+                    modalImg.classList.add('scale-100');
+                }, 10);
+            };
+
+            window.closeModal = () => {
+                modal.classList.add('opacity-0');
+                modalImg.classList.add('scale-95');
+                modalImg.classList.remove('scale-100');
+                setTimeout(() => modal.classList.add('hidden'), 300);
+            };
+        });
+    </script>
+</body>
+</html>
